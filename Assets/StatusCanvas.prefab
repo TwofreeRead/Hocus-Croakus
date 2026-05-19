@@ -63,7 +63,6 @@ GameObject:
   m_Component:
   - component: {fileID: 793113171492658603}
   - component: {fileID: 5060987231750494968}
-  - component: {fileID: 1083413627722616308}
   m_Layer: 0
   m_Name: StatusEffectsContainer
   m_TagString: Untagged
@@ -116,20 +115,6 @@ MonoBehaviour:
   m_ChildScaleWidth: 0
   m_ChildScaleHeight: 0
   m_ReverseArrangement: 0
---- !u!114 &1083413627722616308
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3000721804254386578}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8260603d4a73ca848b714ac80c014fe1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::StatusEffectUIManager
-  effectIconPrefab: {fileID: 500810988426911038}
-  container: {fileID: 793113171492658603}
 --- !u!1 &3858755700364398171
 GameObject:
   m_ObjectHideFlags: 0

@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using Mirror;
+using UnityEngine.Rendering; // Required for Volume Profiles
 
 public class FPSCamera : NetworkBehaviour
 {
@@ -22,6 +23,13 @@ public class FPSCamera : NetworkBehaviour
     [SerializeField] private float speedToFOVRatio = 1.2f;
 
     private float fovVelocity;
+
+    [Header("Volume / Post Processing")]
+    [Tooltip("Drag the object that has the Volume component here (usually the Camera).")]
+    [SerializeField] private Volume statusEffectVolume;
+
+    [Tooltip("Your normal gameplay Volume Profile. The script reverts to this when no debuffs are active.")]
+    [SerializeField] private VolumeProfile defaultProfile;
 
     void Start()
     {
@@ -53,6 +61,25 @@ public class FPSCamera : NetworkBehaviour
 
         statusEffectManager = GetComponentInParent<StatusEffectManager>();
         if (statusEffectManager == null) statusEffectManager = GetComponent<StatusEffectManager>();
+
+        // Fallback: If you forgot to assign the volume in the inspector, it tries to find or add one
+        if (statusEffectVolume == null)
+        {
+            statusEffectVolume = cam.GetComponent<Volume>();
+            if (statusEffectVolume == null)
+            {
+                statusEffectVolume = cam.gameObject.AddComponent<Volume>();
+            }
+        }
+
+        statusEffectVolume.isGlobal = true;
+        statusEffectVolume.weight = 1f;
+
+        // Ensure we start with the normal game look
+        if (defaultProfile != null)
+        {
+            statusEffectVolume.profile = defaultProfile;
+        }
     }
 
     void Update()
@@ -99,13 +126,25 @@ public class FPSCamera : NetworkBehaviour
         }
     }
 
-    // THE FIX: Feeds the dynamic SyncVar values straight to your custom image effect shader uniforms!
     private void HandleShaderUpdates()
     {
-        if (statusEffectManager == null || cam == null) return;
+        if (statusEffectManager == null || statusEffectVolume == null) return;
 
-        // If you are using standard materials or custom scripts, update their shader uniforms right here:
-        // Shader.SetGlobalFloat("_BlurAmount", statusEffectManager.currentBlurAmount);
-        // Shader.SetGlobalFloat("_HallucinationIntensity", statusEffectManager.currentHallucinationAmount);
+        int volIndex = statusEffectManager.activeVolumeProfileIndex;
+
+        // Apply debuff effect profile if active and valid
+        if (volIndex >= 0 && volIndex < statusEffectManager.effectDatabase.Length)
+        {
+            var effectProfile = statusEffectManager.effectDatabase[volIndex].postProcessVolume;
+            if (effectProfile != null)
+            {
+                statusEffectVolume.profile = effectProfile;
+            }
+        }
+        else
+        {
+            // No debuff active, return to the default profile
+            statusEffectVolume.profile = defaultProfile;
+        }
     }
 }

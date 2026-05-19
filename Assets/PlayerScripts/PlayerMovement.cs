@@ -10,8 +10,6 @@ public class PlayerMovement : NetworkBehaviour
     [SerializeField] private CharacterController controller;
     [SerializeField] private Transform headMount;
     public PlayerHealth playerHealth;
-
-    // THE FIX: Links the new Status Effect System
     private StatusEffectManager statusManager;
 
     [Header("Input Locks")]
@@ -19,7 +17,6 @@ public class PlayerMovement : NetworkBehaviour
     [HideInInspector] public bool baseCameraLocked = false;
     [HideInInspector] public bool baseMovementLocked = false;
 
-    // THE FIX: These properties gracefully combine the UI minigame locks with physical Stuns
     public bool isJumpLocked
     {
         get => baseJumpLocked || (statusManager != null && statusManager.isStunned);
@@ -108,7 +105,6 @@ public class PlayerMovement : NetworkBehaviour
     {
         if (controller == null) controller = GetComponent<CharacterController>();
         if (playerHealth == null) playerHealth = GetComponent<PlayerHealth>();
-
         statusManager = GetComponent<StatusEffectManager>();
 
         currentTargetSpeed = walkSpeed;
@@ -160,6 +156,14 @@ public class PlayerMovement : NetworkBehaviour
 
         if (isMovementLocked)
         {
+            if (statusManager != null && statusManager.isStunned)
+            {
+                if (input.moveInput.magnitude > 0.1f || input.jumpPressed)
+                {
+                    statusManager.TriggerStunFeedback();
+                }
+            }
+
             input.moveInput = Vector2.zero;
             input.jumpPressed = false;
             input.sprintHeld = false;
@@ -316,7 +320,6 @@ public class PlayerMovement : NetworkBehaviour
         }
         else
         {
-            // THE FIX: Multiply goal speed mathematically by the dynamic Debuff Status
             float speedMult = statusManager != null ? statusManager.currentSpeedMultiplier : 1f;
 
             float goalSpeed = walkSpeed * speedMult;

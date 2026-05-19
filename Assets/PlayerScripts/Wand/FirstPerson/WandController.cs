@@ -85,11 +85,13 @@ public class WandController : NetworkBehaviour
     private NetworkIdentity lastSeenServerObject;
     private AudioSource sfxSource;
     private AudioSource loopSource;
+    private StatusEffectManager statusManager;
 
-    void Start()
+    void Awake()
     {
         if (playerMovement == null) playerMovement = GetComponent<PlayerMovement>();
         if (playerHealth == null) playerHealth = GetComponent<PlayerHealth>();
+        statusManager = GetComponent<StatusEffectManager>();
 
         localReserveEnergy = currentReserveEnergy;
 
@@ -120,7 +122,7 @@ public class WandController : NetworkBehaviour
         if (wandModes.Length > 0 && wandModes[0] != null) loadedEnergyMode0 = wandModes[0].maxLoadedEnergy;
         if (wandModes.Length > 1 && wandModes[1] != null) loadedEnergyMode1 = wandModes[1].maxLoadedEnergy;
         if (wandModes.Length > 2 && wandModes[2] != null) loadedEnergyMode2 = wandModes[2].maxLoadedEnergy;
-
+        
         TargetResetLocalEnergy();
         TargetUpdateReserveEnergy(currentReserveEnergy);
     }
@@ -160,7 +162,7 @@ public class WandController : NetworkBehaviour
             if (playerHealth != null && playerHealth.isDead)
             {
                 if (localIntendedGrabState) ExecuteDropLocal(0.1f);
-                if (isHarvesting)
+                if (isHarvesting) 
                 {
                     if (MinigameManager.Instance != null && MinigameManager.Instance.IsPlaying)
                         MinigameManager.Instance.StopMinigame(false);
@@ -377,11 +379,10 @@ public class WandController : NetworkBehaviour
         if (tpAnimator != null) tpAnimator.CmdSyncHarvesting(false);
     }
 
-    // THE FIX: High Visibility Colored Logging!
     public void OnMinigameComplete(bool success)
     {
         Debug.Log($"<color=cyan><b>[LOCAL UI]</b></color> Minigame Manager sent result: Success = {success}. Currently harvesting? {isHarvesting}");
-
+        
         if (!isHarvesting) return;
 
         isHarvesting = false;
@@ -404,6 +405,17 @@ public class WandController : NetworkBehaviour
     private void HandleInput()
     {
         if (isReloading) return;
+
+        if (statusManager != null && statusManager.isStunned)
+        {
+            bool triedToAct = Input.GetMouseButtonDown(0) || Input.GetMouseButtonDown(1) || Input.GetKeyDown(KeyCode.R);
+            if (triedToAct) 
+            {
+                statusManager.TriggerStunFeedback();
+            }
+            return;
+        }
+
         WandData data = wandModes[currentModeIndex];
 
         if (isHarvesting)
@@ -433,10 +445,8 @@ public class WandController : NetworkBehaviour
                 if (harvestTimer >= targetGrowthPoint.currentData.harvestTime)
                 {
                     isHarvesting = false;
-
                     Debug.Log($"<color=cyan><b>[LOCAL UI]</b></color> Normal 'Hold' harvest completed! Forwarding success to Server.");
                     targetGrowthPoint.CmdResolveMinigame(true);
-
                     targetGrowthPoint = null;
                     CmdSetHarvestingState(false);
                     if (tpAnimator != null) tpAnimator.CmdSyncHarvesting(false);
@@ -471,7 +481,7 @@ public class WandController : NetworkBehaviour
                         CmdSetHarvestingState(true);
                         if (tpAnimator != null) tpAnimator.CmdSyncHarvesting(true);
                         gp.CmdStartHarvesting();
-
+                        
                         if (MinigameManager.Instance != null)
                             MinigameManager.Instance.StartMinigame(gp.currentData);
 
@@ -912,21 +922,21 @@ public class WandController : NetworkBehaviour
             if (serverHeldObject != null) { Rigidbody rb = serverHeldObject.GetComponent<Rigidbody>(); if (rb != null) mass = rb.mass; }
 
             int loadedLocal = localLoadedEnergy[currentModeIndex];
-
+            
             if (fpVisuals != null)
             {
                 fpVisuals.UpdateVisualState(
-                    loadedLocal,
-                    data.maxLoadedEnergy,
-                    data.modeEmissionColor,
-                    data.maxEmissionIntensity,
-                    isReloading,
-                    prog,
-                    localIntendedGrabState,
-                    isHarvesting,
-                    mass,
-                    isHarvesting ? 1f : charge,
-                    data.gravitySpell,
+                    loadedLocal, 
+                    data.maxLoadedEnergy, 
+                    data.modeEmissionColor, 
+                    data.maxEmissionIntensity, 
+                    isReloading, 
+                    prog, 
+                    localIntendedGrabState, 
+                    isHarvesting, 
+                    mass, 
+                    isHarvesting ? 1f : charge, 
+                    data.gravitySpell, 
                     data.harvestSettings
                 );
             }
@@ -965,17 +975,17 @@ public class WandController : NetworkBehaviour
             int currentVisEnergy = isLocalPlayer ? localLoadedEnergy[CurrentModeIndex] : loadedRemote;
 
             tpVisuals.UpdateVisualState(
-                currentVisEnergy,
-                data.maxLoadedEnergy,
-                data.modeEmissionColor,
-                data.maxEmissionIntensity,
-                false,
-                prog,
-                syncedIsGrabbing,
-                syncedIsHarvesting,
-                syncedIsHarvesting ? 1f : charge,
-                data.gravitySpell.gravityEmissionColor,
-                data.gravitySpell.maxChargeEmissionColor,
+                currentVisEnergy, 
+                data.maxLoadedEnergy, 
+                data.modeEmissionColor, 
+                data.maxEmissionIntensity, 
+                false, 
+                prog, 
+                syncedIsGrabbing, 
+                syncedIsHarvesting, 
+                syncedIsHarvesting ? 1f : charge, 
+                data.gravitySpell.gravityEmissionColor, 
+                data.gravitySpell.maxChargeEmissionColor, 
                 data.harvestSettings
             );
         }
