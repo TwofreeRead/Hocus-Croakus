@@ -1,0 +1,50 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c8a2c006a6a29804996f0e123e94df7c, type: 3}
+  m_Name: TESTPLANT 1
+  m_EditorClassIdentifier: Assembly-CSharp::HarvestableData
+  manaYield: 25
+  healthYield: 25
+  growthTime: 5
+  harvestTime: 20
+  overgrowProbability: 0
+  minigameType: 2
+  minigameProgressFillRate: 0.2
+  minigameProgressDrainRate: 0.2
+  minigameSuccessSound: {fileID: 0}
+  minigameFailureSound: {fileID: 0}
+  balanceTargetSpeed: 50
+  balanceKnobThrust: 1000
+  balanceKnobGravity: 800
+  balanceTargetSizeMultiplier: 1
+  focusPlayAreaRadius: 400
+  focusMercyFillRate: 0.1
+  focusResistancePower: 7
+  focusShakeLimit: 10
+  focusShakeSpeed: 10
+  focusFlingPower: 1000
+  focusFlingMinInterval: 2
+  focusFlingMaxInterval: 5
+  isEmissive: 1
+  emissionMode: 1
+  minEmission: 0.5
+  maxEmission: 3
+  waveSpeed: 10
+  modelPrefab: {fileID: 6976873377639235884, guid: 243978c83251a0b43ad59b6465cd642a, type: 3}
+  grownParticle: {fileID: 8172394614802003838, guid: 42ffc1e34368b7647ad762350e88c4bc, type: 3}
+  harvestingParticle: {fileID: 0}
+  destroyedParticle: {fileID: 4550076289710732121, guid: 73c399c38ad4fa7489103965c33e5ddc, type: 3}
+  absorbedParticle: {fileID: 0}
+  grownSound: {fileID: 0}
+  destroyedSound: {fileID: 0}
+  harvestingLoopSound: {fileID: 0}
+  harvestedSound: {fileID: 0}

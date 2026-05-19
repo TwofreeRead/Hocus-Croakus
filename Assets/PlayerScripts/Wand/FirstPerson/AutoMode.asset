@@ -1,0 +1,91 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e025a60aadc4d7f409f03af4422508af, type: 3}
+  m_Name: AutoMode
+  m_EditorClassIdentifier: Assembly-CSharp::WandData
+  isAutomatic: 1
+  maxLoadedEnergy: 30
+  energyCostPerShot: 1
+  projectileDamage: 5
+  fireRate: 0.3
+  reloadTime: 2
+  projectileSpeed: 45
+  projectileForce: 5
+  projectileHitLayers:
+    serializedVersion: 2
+    m_Bits: 24840
+  shellCount: 1
+  spreadFactor: 1
+  modeEmissionColor: {r: 1, g: 0.8767811, b: 0, a: 1}
+  maxEmissionIntensity: 5
+  recoilPunch: 20
+  crosshair:
+    normalColor: {r: 1, g: 0.87843144, b: 0, a: 1}
+    baseSpread: 33
+    shootPunchAmount: 0
+    movementSpreadMultiplier: 0
+  projectilePrefab: {fileID: 6030635554440576565, guid: c2a03c4bf00bfe14f88b22cb3b592000, type: 3}
+  impactPrefab: {fileID: 4550076289710732121, guid: 73c399c38ad4fa7489103965c33e5ddc, type: 3}
+  muzzleFlashPrefab: {fileID: 8157646421336188855, guid: 003e47c49af41ef4d82764fd88d2f2f3, type: 3}
+  emptyAmmoClickPrefab: {fileID: 8933307922485734126, guid: 986256e8be632a444ab6c90a9fe2510e, type: 3}
+  reloadEffectPrefab: {fileID: 5732568103209889489, guid: be3a1b5df5a8a1a41936471f7601f41b, type: 3}
+  shootSound: {fileID: 8300000, guid: bb7ca6d99028ad944b992bbfe1f208ab, type: 3}
+  reloadSound: {fileID: 8300000, guid: 775752d4d07d4764e84cba362b9c7e47, type: 3}
+  emptyAmmoSound: {fileID: 8300000, guid: 7abc64eed0016df43b7f273ebaa3a0da, type: 3}
+  switchModeSound: {fileID: 8300000, guid: 16d741237e47c924f83eea594ec16f51, type: 3}
+  gravitySpell:
+    grabTag: Grabbable
+    grabRange: 5
+    maxThrowForce: 25
+    maxChargeTime: 3
+    chargeDistance: 3
+    pullStrength: 75
+    rotationStrength: 25
+    minDistance: 2
+    maxDistance: 4
+    scrollSpeed: 7
+    minMassLevel: 0
+    maxMassLevel: 0
+    minMassWiggle: 0
+    maxMassWiggle: 0
+    minChargeShake: 0
+    maxChargeShake: 0.1
+    minObjectShakeAmount: 0
+    maxObjectShakeAmount: 0.2
+    minObjectShakeSpeed: 0
+    maxObjectShakeSpeed: 40
+    minArmWobbleAmount: 5
+    maxArmWobbleAmount: 10
+    minArmWobbleSpeed: 5
+    maxArmWobbleSpeed: 7
+    grabbedAuraMaterial: {fileID: 2100000, guid: 5a3f37ab2f4dc39468544b70ad467304, type: 2}
+    grabbedObjectParticles: {fileID: 0}
+    muzzleHoldParticles: {fileID: 76287093831681763, guid: 2c7cafd0e8d58fa41b7b872aaa4cba70, type: 3}
+    fadeTime: 0
+    heldObjectAlpha: 0.7
+    auraColorNormal: {r: 1, g: 0.41176474, b: 0.7058824, a: 0}
+    auraColorMaxCharge: {r: 1, g: 0, b: 0, a: 1}
+    gravityEmissionColor: {r: 1, g: 0.4117647, b: 0.7058824, a: 1}
+    maxChargeEmissionColor: {r: 0.8627452, g: 0.07843138, b: 0.2352941, a: 1}
+    grabbedColor: {r: 1, g: 0.41176474, b: 0.7058824, a: 0}
+    chargeColor: {r: 0.86274517, g: 0.078431375, b: 0.23529413, a: 1}
+    hoverColor: {r: 1, g: 0.41176474, b: 0.7058824, a: 0}
+    grabbedCrosshairSpread: 40
+    chargeCrosshairSpread: 23
+    grabSound: {fileID: 8300000, guid: 28a7d8e106471c34d89ded1f9b4b1583, type: 3}
+    throwSound: {fileID: 8300000, guid: 8b95e30770914fa49bbc036f40c79c65, type: 3}
+    dropSound: {fileID: 8300000, guid: 9c7c48984c2e96a4598c7da2bf2bacc9, type: 3}
+    holdLoopSound: {fileID: 8300000, guid: 85f62cd650ff4b340aa4294a1158fff8, type: 3}
+  harvestSettings:
+    wandEmissionColor: {r: 0.8156863, g: 0.1254902, b: 0.5647059, a: 1}
+    crosshairColor: {r: 0.8156863, g: 0.1254902, b: 0.5647059, a: 1}
+    pullingParticlePrefab: {fileID: 0}
